@@ -213,20 +213,14 @@ traceLimited([], N, [[]]):- N < 100.
 traceLimited(G, N, R):- N < 100, next(G, B), N1 is N +1, traceLimited(B, N1, R1), append([G], R1,R).
 
 % 4.1
-% solutions are explored breadth firts, not depth first
+% solutions are explored breadth first, not depth first
 tuple(T, R).
 factory(T, R, tuple(T, R)).
 
-traceBreathFirst(I, R):- traceBreathFirst1([tuple(I, [I])], R).
-traceBreathFirst1([tuple([], T)| _], T).
-traceBreathFirst1([tuple([], _)| T], R):-traceBreathFirst1(T, R).
-traceBreathFirst1([tuple(I, N)| T], R):- step(I,N, T,  Q), traceBreathFirst1(Q, R).
+traceBreadthFirst(I, R):- traceBreadthFirst1([tuple(I, [I])], R).
+traceBreadthFirst1([tuple([], T)| _], T).
+traceBreadthFirst1([tuple([], _)| T], R):-traceBreadthFirst1(T, R).
+traceBreadthFirst1([tuple(I, N)| T], R):- step(I,N, T,  Q), traceBreadthFirst1(Q, R).
 
 step([G|T], E, Q, R):- findall(X, (rule(G, N), append(N, T, S), append(E, [S], R1), factory(S, R1, X)), L),
  append(Q, L, R).
-
-
-
-
-test([],0).
-test(G, R):- test(G,R).
